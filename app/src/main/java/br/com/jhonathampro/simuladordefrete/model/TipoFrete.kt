@@ -1,6 +1,6 @@
 package br.com.jhonathampro.simuladordefrete.model
 
-enum class TipoFrente {
+enum class TipoFrete {
     ECONOMICO,
     EXPRESSO,
     RETIRADO

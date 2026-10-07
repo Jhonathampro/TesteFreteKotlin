@@ -1,32 +1,45 @@
 package br.com.jhonathampro.simuladordefrete.frete
 
 import br.com.jhonathampro.simuladordefrete.model.ResultadoFrete
-import br.com.jhonathampro.simuladordefrete.model.TipoFrente
+import br.com.jhonathampro.simuladordefrete.model.TipoFrete
 
 class CalculadoraFrete {
 
     fun calcular(
-        tipo: TipoFrente,
+        tipo: TipoFrete,
         pesoKg: Double,
-        distanciaKm: Double
+        distanciaKm: Double,
+        valorCompra: Double
+
+        // A função calcular precisa retornar um objeto do tipo ResultadoFrete
     ) : ResultadoFrete {
 
+        require(pesoKg > 0) {
+            "O peso deve ser maior que zero"
+        }
+
+        require( distanciaKm >= 0) {
+            "O peso deve ser maior que zero"
+        }
         val resultado = when(tipo){
 
-            TipoFrente.ECONOMICO -> ResultadoFrete(
-                valor = 8 * 3 * pesoKg * 0.10 * distanciaKm,
+            TipoFrete.ECONOMICO -> ResultadoFrete(
+                valor = 8 + pesoKg * 3  + distanciaKm * 0.10,
                 prazoDias = 5
             )
 
-            TipoFrente.EXPRESSO -> ResultadoFrete(
-                valor = 20 * 5 * pesoKg + 0.25 * distanciaKm,
+            TipoFrete.EXPRESSO -> ResultadoFrete(
+                valor = 20 + pesoKg * 5  + distanciaKm * 0.25,
                 prazoDias = 2
             )
 
-            TipoFrente.RETIRADO -> ResultadoFrete(
+            TipoFrete.RETIRADO -> ResultadoFrete(
                 valor = 0.0,
                 prazoDias = 1
             )
+        }
+        if(valorCompra >= 300){
+           return resultado.copy(valor = 0.0)
         }
         return resultado
 
