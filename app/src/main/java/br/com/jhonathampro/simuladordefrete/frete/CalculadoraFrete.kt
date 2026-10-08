@@ -9,7 +9,8 @@ class CalculadoraFrete {
         tipo: TipoFrete,
         pesoKg: Double,
         distanciaKm: Double,
-        valorCompra: Double
+        valorCompra: Double,
+        cupom: String
 
         // A função calcular precisa retornar um objeto do tipo ResultadoFrete
     ) : ResultadoFrete {
@@ -19,7 +20,7 @@ class CalculadoraFrete {
         }
 
         require( distanciaKm >= 0) {
-            "O peso deve ser maior que zero"
+            "A distância não pode ser negativa"
         }
         val resultado = when(tipo){
 
@@ -38,8 +39,21 @@ class CalculadoraFrete {
                 prazoDias = 1
             )
         }
+        // Essa condição aqui atribui zero ao frete e o valor do prazo de dias não é alterado
         if(valorCompra >= 300){
            return resultado.copy(valor = 0.0)
+        }
+
+        if(cupom == "FRETEGRATIS"){
+            return ResultadoFrete(
+                valor = 0.0,
+                prazoDias = resultado.prazoDias
+            )
+        } else if( cupom == "FRETE50"){
+            return ResultadoFrete(
+                valor = resultado.valor * 0.50,
+                prazoDias = resultado.prazoDias
+            )
         }
         return resultado
 
